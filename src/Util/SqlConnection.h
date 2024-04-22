@@ -88,7 +88,9 @@ public:
     ~SqlConnection() {
         mysql_close(&_sql);
     }
-
+    void ping(){
+        check();
+    }
     /**
      * 以printf样式执行sql,无数据返回
      * @param rowId insert时的插入rowid
