@@ -109,6 +109,16 @@ private:
         _threadPool = WorkThreadPool::Instance().getExecutor();
         _timer = std::make_shared<Timer>(30, [this]() {
             flushError();
+            checkInited();
+            typename PoolType::ValuePtr mysql;
+            try {
+                //捕获执行异常
+                mysql = _pool->obtain();
+                mysql->ping();
+            } catch (std::exception &e) {
+                mysql.quit();
+                throw;
+            }
             return true;
         }, nullptr);
     }
