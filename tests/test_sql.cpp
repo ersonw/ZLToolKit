@@ -43,7 +43,7 @@ int main() {
     //建议数据库连接池大小设置跟CPU个数一致(大一点为佳)
     SqlPool::Instance().setSize(3 + thread::hardware_concurrency());
 
-    vector<vector<string> > sqlRet;
+    std::vector<vector<string> > sqlRet;
     SqlWriter("create database test_db;", false) << sqlRet;
     SqlWriter("create table test_db.test_table(user_name  varchar(128),user_id int auto_increment primary key,user_pwd varchar(128));", false) << sqlRet;
 
@@ -57,11 +57,11 @@ int main() {
     SqlWriter sqlSelect("select user_id , user_pwd from test_db.test_table where user_name='?' limit 1;") ;
     sqlSelect << "zltoolkit" ;
 
-    vector<vector<string> > sqlRet0;
-    vector<list<string> > sqlRet1;
-    vector<deque<string> > sqlRet2;
-    vector<map<string,string> > sqlRet3;
-    vector<unordered_map<string,string> > sqlRet4;
+    std::vector<vector<string> > sqlRet0;
+    std::vector<list<string> > sqlRet1;
+    std::vector<deque<string> > sqlRet2;
+    std::vector<map<string,string> > sqlRet3;
+    std::vector<unordered_map<string,string> > sqlRet4;
     sqlSelect << sqlRet0;
     sqlSelect << sqlRet1;
     sqlSelect << sqlRet2;

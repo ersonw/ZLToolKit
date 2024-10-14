@@ -77,7 +77,7 @@ public:
 
 
 EventPoller::Ptr nextPoller(){
-    static vector<EventPoller::Ptr> s_poller_vec;
+    static std::vector<EventPoller::Ptr> s_poller_vec;
     static int  s_poller_index = 0;
     if(s_poller_vec.empty()){
         EventPollerPool::Instance().for_each([&](const TaskExecutor::Ptr &executor){

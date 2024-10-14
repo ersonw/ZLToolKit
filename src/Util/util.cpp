@@ -200,7 +200,7 @@ std::string strToUpper(std::string &&str) {
 }
 
 vector<string> split(const string &s, const char *delim) {
-    vector<string> ret;
+    std::vector<string> ret;
     size_t last = 0;
     auto index = s.find(delim, last);
     while (index != string::npos) {

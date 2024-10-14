@@ -92,7 +92,7 @@ static int getCerType(BIO *bio, const char *passwd, X509 **x509, int type) {
 #endif //defined(ENABLE_OPENSSL)
 
 vector<shared_ptr<X509> > SSLUtil::loadPublicKey(const string &file_path_or_data, const string &passwd, bool isFile) {
-    vector<shared_ptr<X509> > ret;
+    std::vector<shared_ptr<X509> > ret;
 #if defined(ENABLE_OPENSSL)
     BIO *bio = isFile ? BIO_new_file((char *) file_path_or_data.data(), "r") :
                BIO_new_mem_buf((char *) file_path_or_data.data(), file_path_or_data.size());
@@ -168,7 +168,7 @@ shared_ptr<EVP_PKEY> SSLUtil::loadPrivateKey(const string &file_path_or_data, co
 #endif //defined(ENABLE_OPENSSL)
 }
 
-shared_ptr<SSL_CTX> SSLUtil::makeSSLContext(const vector<shared_ptr<X509> > &cers, const shared_ptr<EVP_PKEY> &key, bool serverMode, bool checkKey) {
+shared_ptr<SSL_CTX> SSLUtil::makeSSLContext(const std::vector<shared_ptr<X509> > &cers, const shared_ptr<EVP_PKEY> &key, bool serverMode, bool checkKey) {
 #if defined(ENABLE_OPENSSL)
     SSL_CTX *ctx = SSL_CTX_new(serverMode ? SSLv23_server_method() : SSLv23_client_method());
     if (!ctx) {

@@ -30,7 +30,7 @@ int main() {
     auto task_count = thread::hardware_concurrency() * 4;
 
     semaphore sem;
-    vector<int> vec;
+    std::vector<int> vec;
     vec.resize(task_count);
     Ticker ticker;
     {

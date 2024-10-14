@@ -154,7 +154,7 @@ TaskExecutor::Ptr TaskExecutorGetterImp::getExecutor() {
 }
 
 vector<int> TaskExecutorGetterImp::getExecutorLoad() {
-    vector<int> vec(_threads.size());
+    std::vector<int> vec(_threads.size());
     int i = 0;
     for (auto &executor : _threads) {
         vec[i++] = executor->load();
@@ -162,7 +162,7 @@ vector<int> TaskExecutorGetterImp::getExecutorLoad() {
     return vec;
 }
 
-void TaskExecutorGetterImp::getExecutorDelay(const function<void(const vector<int> &)> &callback) {
+void TaskExecutorGetterImp::getExecutorDelay(const function<void(const std::vector<int> &)> &callback) {
     std::shared_ptr<vector<int> > delay_vec = std::make_shared<vector<int>>(_threads.size());
     shared_ptr<void> finished(nullptr, [callback, delay_vec](void *) {
         //此析构回调触发时，说明已执行完毕所有async任务

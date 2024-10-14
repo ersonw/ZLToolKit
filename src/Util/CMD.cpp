@@ -35,7 +35,7 @@ CMDRegister &CMDRegister::Instance() {
 }
 
 void OptionParser::operator()(mINI &all_args, int argc, char *argv[], const std::shared_ptr<ostream> &stream) {
-    vector<struct option> vec_long_opt;
+    std::vector<struct option> vec_long_opt;
     string str_short_opt;
     do {
         struct option tmp;

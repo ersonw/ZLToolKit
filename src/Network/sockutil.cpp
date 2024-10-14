@@ -727,7 +727,7 @@ string SockUtil::get_local_ip() {
 }
 
 vector<map<string, string> > SockUtil::getInterfaceList() {
-    vector<map<string, string> > ret;
+    std::vector<map<string, string> > ret;
 #if defined(__APPLE__)
     for_each_netAdapter_apple([&](struct ifaddrs *adapter) {
         map<string, string> obj;
