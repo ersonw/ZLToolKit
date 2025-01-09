@@ -252,9 +252,9 @@ public:
         } catch (std::exception &ex) {
             //在转义sql时可能抛异常
             if (!_throwAble) {
-                WarnL << "Commit sql failed: " << ex.what();
+                WarnL << "\n" << (std::string) data << "\nCommit sql failed: " << ex.what();
             } else {
-                throw;
+                throw SqlException((std::string) data, ex.what());
             }
         }
         return *this;
@@ -282,9 +282,9 @@ public:
             _affectedRows = SqlPool::Instance().syncQuery(_rowId, ret, (std::string) _sqlstream);
         } catch (std::exception &ex) {
             if (!_throwAble) {
-                WarnL << "SqlPool::syncQuery failed: " << ex.what();
+                WarnL << "\n" << (std::string) _sqlstream << "\nSqlPool::syncQuery failed: " << ex.what();
             } else {
-                throw;
+                throw SqlException((std::string) _sqlstream, ex.what());
             }
         }
         return _affectedRows;
