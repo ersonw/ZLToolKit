@@ -254,7 +254,7 @@ public:
             if (!_throwAble) {
                 WarnL << "\n" << (std::string) data << "\nCommit sql failed: " << ex.what();
             } else {
-                throw SqlException((std::string) data, ex.what());
+                throw SqlException((std::string) _sqlstream, ex.what());
             }
         }
         return *this;
