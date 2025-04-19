@@ -163,11 +163,14 @@ public:
 
     template<typename T>
     LogContextCapture &operator<<(T &&data) {
+
+        // std::lock_guard<std::mutex> lock(_mutex);
         if (!_ctx) {
             return *this;
         }
         (*_ctx) << std::forward<T>(data);
         return *this;
+
     }
 
     void clear();
@@ -175,6 +178,7 @@ public:
 private:
     LogContextPtr _ctx;
     Logger &_logger;
+    std::mutex _mutex;
 };
 
 

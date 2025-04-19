@@ -201,18 +201,26 @@ const string &LogContext::str() {
 static string s_module_name = exeName(false);
 
 LogContextCapture::LogContextCapture(Logger &logger, LogLevel level, const char *file, const char *function, int line, const char *flag) :
-        _ctx(new LogContext(level, file, function, line, s_module_name.c_str() ? s_module_name.c_str() : "", flag)), _logger(logger) {
+        _ctx(), _logger(logger) {
+    // 使用原子操作确保线程安全地创建上下文
+    std::atomic_store(&_ctx, std::make_shared<LogContext>(level, file, function, line, s_module_name.c_str() ? s_module_name.c_str() : "", flag));
 }
 
 LogContextCapture::LogContextCapture(const LogContextCapture &that) : _ctx(that._ctx), _logger(that._logger) {
-    const_cast<LogContextPtr &>(that._ctx).reset();
+    // const_cast<LogContextPtr &>(that._ctx).reset();
+    const_cast<LogContextCapture &>(that).clear();
 }
 
 LogContextCapture::~LogContextCapture() {
     *this << endl;
+    if (_ctx) {
+        _ctx.reset();
+    }
 }
 
 LogContextCapture &LogContextCapture::operator<<(ostream &(*f)(ostream &)) {
+    // 创建局部副本，然后原子地交换/重置
+    // std::lock_guard<std::mutex> lock(_mutex); // 添加互斥锁保护
     if (!_ctx) {
         return *this;
     }
@@ -222,7 +230,10 @@ LogContextCapture &LogContextCapture::operator<<(ostream &(*f)(ostream &)) {
 }
 
 void LogContextCapture::clear() {
-    _ctx.reset();
+    // std::lock_guard<std::mutex> lock(_mutex);
+    if (_ctx) {
+        _ctx.reset();
+    }
 }
 
 ///////////////////AsyncLogWriter///////////////////
