@@ -252,7 +252,7 @@ public:
         } catch (std::exception &ex) {
             //在转义sql时可能抛异常
             if (!_throwAble) {
-                WarnL << "\n" << (std::string) data << "\nCommit sql failed: " << ex.what();
+                WarnL << "\n" << "\nCommit sql failed: " << ex.what();
             } else {
                 throw SqlException((std::string) _sqlstream, ex.what());
             }
