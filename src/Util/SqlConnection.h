@@ -79,9 +79,11 @@ public:
             mysql_close(&_sql);
             throw SqlException("mysql_real_connect", mysql_error(&_sql));
         }
-        //兼容bool与my_bool
-        uint32_t reconnect = 0x01010101;
+#if MYSQL_VERSION_ID >= 80000
+#else
+        my_bool reconnect = 1;
         mysql_options(&_sql, MYSQL_OPT_RECONNECT, &reconnect);
+#endif
         mysql_set_character_set(&_sql, character.data());
     }
 
